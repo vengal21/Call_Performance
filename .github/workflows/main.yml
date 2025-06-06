@@ -1,0 +1,42 @@
+name: Run Daily Python Scripts (IST)
+
+on:
+  schedule:
+    - cron: '00 05 * * *'  # Every day at 13:00 UTC = 6:30 PM IST
+  workflow_dispatch:      # Allows manual triggering
+
+jobs:
+  run-scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Upgrade pip
+        run: |
+          pip install --upgrade pip
+
+      - name: Print Current Time (for debugging)
+        run: |
+          date
+
+      - name: Show files in current directory
+        run: |
+          ls -la
+
+      - name: Run KunCapital_ins_call_performance.py
+        run: |
+          python KunCapital_ins_call_performance.py
+
+      - name: Run KunHy_ins_Call_performance.py
+        run: |
+          python KunHy_ins_Call_performance.py
+
+      - name: Run KunHy_smr_Call_performance.py
+        run: |
+          python KunHy_smr_Call_performance.py
